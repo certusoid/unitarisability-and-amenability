@@ -1,0 +1,557 @@
+\documentclass[a4paper,11pt]{amsproc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[a4paper,margin=25mm,footskip=10mm]{geometry}
+\usepackage{amssymb,mathtools}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\usepackage{hyperref}
+\usepackage{bookmark}
+\hypersetup{colorlinks=false,pdfborder={0 0 1},linkbordercolor={0.15 0.35 0.75},citebordercolor={0.1 0.55 0.35},urlbordercolor={0.15 0.35 0.75},pdftitle={A geometric account of the solution to the Dixmier unitarizability problem}}
+\pagestyle{plain}
+\setlength{\emergencystretch}{2em}
+\numberwithin{equation}{section}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem*{maintheorem}{Main theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newcommand{\C}{\mathbb C}
+\newcommand{\R}{\mathbb R}
+\newcommand{\N}{\mathbb N}
+\newcommand{\E}{\mathbb E}
+\newcommand{\Prob}{\mathbb P}
+\newcommand{\one}{\mathbf 1}
+\newcommand{\LG}{LG}
+\newcommand{\RG}{RG}
+\newcommand{\cB}{\mathcal B}
+\newcommand{\cW}{\mathcal W}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\dist}{dist}
+\DeclareMathOperator{\row}{row}
+\DeclareMathOperator{\col}{col}
+\DeclareMathOperator{\Ad}{Ad}
+\DeclareMathOperator{\rank}{rank}
+\title{A geometric account of the solution to the Dixmier unitarizability problem}
+\author{Vadim Alekseev}
+\date{October 8, 2026}
+\begin{document}
+\begin{abstract}
+This note presents a more geometric account of OpenAI's solution to the Dixmier unitarizability problem. Some parts of the original proof are reinterpreted using the existence of a positive divergence flow on a non-amenable group, and the randomized construction for operator norm control of the Markov operator with matrix coefficients is replaced by one coming from free groups.
+\end{abstract}
+\maketitle\thispagestyle{plain}
+
+\section*{Introduction}
+A representation $\pi:G\to\mathrm{GL}(H)$ on a complex Hilbert space is \emph{uniformly bounded} if $|\pi|:=\sup_{g\in G}\norm{\pi(g)}<\infty$, and \emph{unitarizable} if a bounded invertible operator $V$ makes $V\pi(g)V^{-1}$ unitary for every $g\in G$. A group is unitarizable if all its uniformly bounded Hilbert space representations are unitarizable. Sz.-Nagy's theorem on operators with uniformly bounded integer powers established the casegroups $G=\mathbb Z$ \cite{sznagy}. Day and Dixmier extended the invariant-mean argument to amenable groups \cite{day,dixmier}; see also Nakamura--Takeda \cite{nt}. Dixmier immediately asked about the converse \cite[\S\,5]{dixmier}.
+
+OpenAI's preprint \cite{openai} proves this converse for discrete groups. The purpose of this note is to give a geometric account of its operator obstruction and a construction of the required positive matrix coefficients using free products of finite groups. We work throughout with countable discrete groups (since the reduction to the general case is straightforward) and prove the following statement. Together with the Day--Dixmier theorem~\cite{day,dixmier}, this characterizes amenability among discrete groups.
+
+\begin{maintheorem}
+Every countable nonamenable discrete group is nonunitarizable.
+\end{maintheorem}
+
+
+The history of the problem involves several different ways of detecting nonunitarizability. Ehrenpreis and Mautner produced the first examples for $\mathrm{SL}_2(\R)$ in 1955 \cite{ehrenpreis}, with a detailed development by Kunze and Stein \cite{ks}. Explicit constructions for nonabelian free groups were obtained subsequently, including the analytic families of Pytlik and Szwarc \cite{ps}. Since unitarizability passes to subgroups, these results imply nonunitarizability for every group containing a nonabelian free subgroup. The remaining difficulty was to obtain an obstruction for general nonamenable groups, including those without such subgroups.
+
+Later work developed quantitative criteria for unitarizability \cite{pisier98,pisier05}. Random-forest methods and Osin's constructions produced nonunitarizable groups without free subgroups \cite{em,osin}, while measurable-group techniques yielded results for wreath products, later extended to finite lamp groups by Alpeev \cite{monod,gl,mo,alpeev}. Further work connected unitarizability with fixed price and approximation properties, including for groups acting on finite-dimensional CAT$(0)$ cube complexes \cite{thom-forests,vergara}.
+
+The analytic approaches closest to the present proof are Littlewood-function methods for amenability and unitarizability \cite{wysoczanski,bf,em}, later related to asymptotic Cheeger constants by Gerasimova, Gruber, Monod, and Thom \cite{ggmt}.
+
+The general idea of the proof given here can be explained as follows. Since the group is nonamenable, it has a flow of positive divergence which splits the random-walk operator on the Cayley graph into contributions from walks with positive and non-positive total flow. Positive drift makes the relevant non-positive part sparse. Thus decomposing the Markov operators on bigger and bigger powers of generatings set into the ``non-positive flow'' $T$ and ``positive flow'' $Q$ parts allows to uniformly control the operator norm displacement of $T$ under the $G$-action. At the same time, the resulting tracial $2$-norms of $T$, if one allows suitable matrix amplifications, tend to infinity, so that a tracial distance estimate shows that the non-positive flow parts move arbitrarily far from the right group von Neumann algebra. They therefore give rise to a bounded non-inner operator cocycle, which yields a nonunitarizable uniformly bounded representation.
+
+\subsection*{AI assistance}
+AI tools contributed to several stages of the work leading to this paper, starting with OpenAI's solution to the Dixmier unitarizability problem.
+
+The present exposition was developed through interaction of GPT-6 Astra; the author supplied some ideas reinterpreting the original proof in a geometric way as well as placing the relevant quantities in the proper operator-algebraic context, which were then made precise by Astra. The usage of group-theoretic sources  instead of random matrix methods was suggested by the author and worked out by Astra in detail. The author directed the reorganization of the proof and takes responsibility for the mathematical claims, references, and final presentation.
+
+
+
+\section{Preliminaries and notation}
+\noindent\textbf{Operator algebras.} Let $G$ be a countable discrete group, with identity $e$. Inner products are linear in the second variable. On $\ell^2(G)$ let
+\begin{equation}\label{eq:regular}
+ (\lambda(g)\xi)(x)=\xi(g^{-1}x),\qquad
+ (\rho(g)\xi)(x)=\xi(xg),\qquad
+ LG=\lambda(G)'',\quad RG=\rho(G)''=LG'.
+\end{equation}
+The canonical traces on $LG$ and $RG$, the normalized matrix traces, and their tensor products are denoted by $\tau$:
+\begin{equation}\label{eq:traces}
+ \tau(X)=\langle\delta_e,X\delta_e\rangle,\qquad
+ \tau(B)=\frac1k\Tr(B),\qquad
+ \norm{A}_2=\tau(A^*A)^{1/2}.
+\end{equation}
+Every element of $LG\,\overline\otimes\,M_k(\C)$, respectively $RG\,\overline\otimes\,M_k(\C)$, has a unique Fourier expansion converging in $L^2$:
+\begin{equation}\label{eq:fourier}
+ A=\sum_{g\in G}\lambda(g)\otimes A_g
+ \quad\text{or}\quad
+ A=\sum_{g\in G}\rho(g)\otimes A_g,
+ \qquad \norm{A}_2^2=\sum_g\norm{A_g}_2^2.
+\end{equation}
+Put $H_k=\ell^2(G)\otimes\C^k$. Viewing $\delta_x$ as a map $\C\to\ell^2(G)$, define for $X\in\cB(H_k)$
+\begin{equation}\label{eq:row-column}
+ \row_x(X)=(\delta_x^*\otimes I_k)X,\qquad
+ \col_x(X)=X(\delta_x\otimes I_k).
+\end{equation}
+For $A\in RG\,\overline\otimes\,M_k(\C)$, the trace identities give
+\begin{equation}\label{eq:trace-row-column}
+ \norm{A}_2^2
+ =\tau\bigl(\row_e(A)\row_e(A)^*\bigr)
+ =\tau\bigl(\col_e(A)^*\col_e(A)\bigr).
+\end{equation}
+Hence $\norm{A}_2\le\norm{\row_e(A)}$ and $\norm{A}_2\le\norm{\col_e(A)}$.
+
+\noindent\textbf{Littlewood functions.} Recall that $f\in T^1(G)$ if $f(x^{-1}y)=u(x,y)+v(x,y)$ with
+\begin{equation}\label{eq:littlewood-norm}
+ \norm{f}_{T^1}
+ =\inf_{f(x^{-1}y)=u+v}\bigl(\alpha(u)+\gamma(v)\bigr)<\infty,
+ \quad
+ \alpha(u)=\sup_x\sum_y|u(x,y)|,\quad
+ \gamma(v)=\sup_y\sum_x|v(x,y)|.
+\end{equation}
+See \cite[Definition 2.3 and Propositions 2.5--2.6]{ggmt}.
+For a finitely supported $f$ and a decomposition $\rho(f)=T+Q$ with kernels $u,v$, Schur's test gives
+\begin{equation}\label{eq:schur}
+ \sup_g\norm{T-\lambda(g)T\lambda(g)^*}
+ \le2\sqrt{\alpha(u)\gamma(v)}.
+\end{equation}
+Indeed the difference has row bound $2\alpha(u)$ and, since it also equals $\lambda(g)Q\lambda(g)^*-Q$, column bound $2\gamma(v)$. Lemma~\ref{lem:walk-operator} gives the corresponding estimate for positive matrix coefficients.
+
+For unitarizable $G$, the standard Littlewood estimate is
+$\norm{f}_{\ell^2(G)}\le C_G\norm{f}_{T^1(G)}$; see Bo\.{z}ejko--Fendler \cite{bf} and Epstein--Monod \cite[Proposition 2.4]{em}. Here $\norm{f}_{\ell^2(G)}=\norm{\rho(f)}_2$. The construction below uses the same row--column estimates and tracial norm, with matrix coefficients.
+
+\section{Positive and non-positive walks}
+Let $G$ be a countable nonamenable discrete group. By the F\o lner criterion, there is a finite symmetric set $S\subset G\setminus\{e\}$ such that, with $d=|S|$,
+\begin{equation}\label{eq:cheeger}
+ h:=\inf_{\varnothing\ne F\subset G\text{ finite}}
+ \frac{|\partial_E F|}{d|F|}>0,
+ \qquad
+ \partial_EF=\{(x,xs):x\in F,\ s\in S,\ xs\notin F\}.
+\end{equation}
+Fix $0<\eta<\min(h,1)$ and set $\beta=\sqrt{1-\eta^2}$.
+
+On the right Cayley graph, an antisymmetric flow gives a signed value to each oriented edge. Its integral along a walk changes sign under reversal. Positive divergence means that a random walk has positive expected flow at every step. Consequently, non-positive walks starting at a fixed vertex are rare; by reversal, positive walks ending at a fixed vertex are also rare. These are the two estimates that will control the two parts of the Markov operator.
+
+\begin{lemma}[A flow of constant positive divergence]\label{lem:flow}
+There is a real function $b$ on oriented Cayley edges satisfying
+\begin{equation}\label{eq:flow}
+ b(x,y)=-b(y,x),\qquad |b(x,y)|\le1,\qquad
+ \frac1d\sum_{s\in S}b(x,xs)=\eta\quad(x\in G).
+\end{equation}
+\end{lemma}
+\begin{proof}
+For a finite set $K\subset G$, form a network with a source, the vertices of $K$, and a sink. Give each source edge capacity $d\eta$, each orientation of an internal Cayley edge capacity one, and each boundary edge to the sink capacity one. A cut with source-side vertices $F\subseteq K$ has capacity
+\[
+ d\eta(|K|-|F|)+|\partial_E F|\ge d\eta|K|.
+\]
+The max-flow/min-cut theorem gives a flow saturating all source edges. Subtract opposite internal flows, extend antisymmetrically across the boundary, and set the remaining values to zero. The resulting function has modulus at most one and divergence $d\eta$ on $K$. A diagonal limit along a finite exhaustion of $G$ proves the assertion.
+\end{proof}
+This is the flow characterization of the edge-isoperimetric constant; see \cite[Proposition 2.1]{blps}.
+
+Let $\cW_\ell=S^{\times\ell}$, $n_\ell=d^\ell$, and $s_w=s_1\cdots s_\ell$ for $w=(s_1,\ldots,s_\ell)$. Write $\Omega_\ell$ for the set of length-$\ell$ walks. A walk $\omega=(x_0,\ldots,x_\ell)$ has initial vertex $o(\omega)=x_0$, terminal vertex $t(\omega)=x_\ell$, and word $w(\omega)\in\cW_\ell$, with $x_j=x_0s_1\cdots s_j$. Define
+\begin{equation}\label{eq:walk-signs}
+ \Phi(\omega)=\sum_{j=1}^{\ell}b(x_{j-1},x_j),\qquad
+ \Omega_\ell^- =\{\Phi\le0\},\qquad
+ \Omega_\ell^+ =\{\Phi>0\}.
+\end{equation}
+Thus $\Omega_\ell=\Omega_\ell^-\sqcup\Omega_\ell^+$. Figure~\ref{fig:walks} shows the two kinds of walks inside a Cayley graph. For $E\subseteq\Omega_\ell$, use the endpoint fibres
+\[
+ E_x^o=\{\omega\in E:o(\omega)=x\},\qquad
+ E_y^t=\{\omega\in E:t(\omega)=y\}.
+\]
+
+\begin{figure}[htbp]
+\centering
+% BEGIN CAYLEY DIAGRAM
+\begin{tikzpicture}[x=1.05cm,y=1.05cm,>=Stealth,font=\small,
+ flow/.style={draw=black!38,thin,->},
+ walknegative/.style={draw=blue!70!black,line width=1.55pt,->},
+ walkpositive/.style={draw=orange!85!black,line width=1.55pt,->},
+ vertex/.style={circle,fill=black!70,inner sep=1.3pt}]
+ \coordinate (p) at (0,-1.55);
+ \coordinate (l) at (-3.8,0);
+ \coordinate (o) at (0,0);
+ \coordinate (r) at (3.8,0);
+ \draw[flow,dashed] (0,-2.4)--(p);
+ \node[anchor=north,text=black!60] at (0,-2.4) {towards the fixed end};
+ \foreach \v in {l,o,r} {\draw[flow] (p)--(\v);}
+ \foreach \prefix/\cx in {l/-3.8,o/0,r/3.8} {
+   \foreach \j/\dx/\dy in {1/-1.2/1.3,2/0/1.7,3/1.2/1.3} {
+     \coordinate (\prefix\j) at (\cx+\dx,\dy);
+     \draw[flow] (\prefix)--(\prefix\j);
+     \foreach \angle in {55,90,125} {
+       \draw[flow,dashed] (\prefix\j)--++(\angle:0.47);
+     }
+     \node[vertex] at (\prefix\j) {};
+   }
+ }
+ \draw[walknegative] (o1)--(o);
+ \draw[walknegative] (o)--(p);
+ \draw[walkpositive] (p)--(r);
+ \draw[walkpositive] (r)--(r3);
+ \foreach \v in {p,l,o,r} {\node[vertex] at (\v) {};}
+ \node[circle,draw=blue!70!black,fill=white,inner sep=2pt] at (o1) {};
+ \node[left=4pt,text=blue!70!black] at (o1) {$x$};
+ \node[circle,draw=black!75,fill=white,inner sep=2pt] at (p) {};
+ \node[below left=2pt] at (p) {$z$};
+ \node[circle,draw=orange!85!black,fill=white,inner sep=2pt] at (r3) {};
+ \node[right=4pt,text=orange!85!black] at (r3) {$y$};
+ \node[align=left,text=blue!70!black,anchor=east] at (-1.2,-1.75)
+   {$\omega_-:x\longrightarrow z$\\$\Phi(\omega_-)=-2c$};
+ \node[align=left,text=orange!85!black,anchor=west] at (2.2,-1.3)
+   {$\omega_+:z\longrightarrow y$\\$\Phi(\omega_+)=2c$};
+ \draw[flow] (-5.3,2.8)--(-4.4,2.8);
+ \node[anchor=west,text=black!65] at (-4.2,2.8) {$b=c$ in the arrow direction};
+\end{tikzpicture}
+% END CAYLEY DIAGRAM
+\caption{A fragment of the $4$-regular Cayley tree of $F_2$. Orient edges away from a fixed end and put $b=c$ in that direction, where $0<c<1$; then the normalized divergence is $c/2$. The blue walk goes against the flow and belongs to $\Omega_2^-$; the orange walk follows the flow and belongs to $\Omega_2^+$. Dashed edges continue the tree.}
+\label{fig:walks}
+\end{figure}
+
+\begin{proposition}[Endpoint estimates]\label{prop:walks}
+For every $\ell\ge1$ and $x,y\in G$,
+\begin{equation}\label{eq:loads}
+ |(\Omega_\ell^-)_x^o|\le n_\ell\beta^\ell,\qquad
+ |(\Omega_\ell^+)_y^t|\le n_\ell\beta^\ell.
+\end{equation}
+In particular, both quantities are at most $r_\ell:=\lceil n_\ell\beta^\ell\rceil$, and $r_\ell/n_\ell\to0$.
+\end{proposition}
+\begin{proof}
+For the uniform random walk starting at $x$, put $Z_j=b(X_{j-1},X_j)$. Then $|Z_j|\le1$ and $\E[Z_j\mid\mathcal F_{j-1}]=\eta$. With $u=\operatorname{arctanh}\eta$, convexity gives
+\[
+ e^{-uz}\le\cosh u-z\sinh u\quad(-1\le z\le1),\qquad
+ \E[e^{-uZ_j}\mid\mathcal F_{j-1}]\le\beta.
+\]
+Iterating and applying Markov's inequality yields
+\begin{equation}\label{eq:markov-tail}
+ \Prob_x\{\Phi\le0\}\le\E_xe^{-u\Phi}\le\beta^\ell.
+\end{equation}
+There are $n_\ell$ equally likely walks starting at $x$, proving the first estimate. Reversal maps positive walks ending at $y$ bijectively to strictly negative walks starting at $y$, proving the second. Finally,
+$r_\ell/n_\ell\le\beta^\ell+d^{-\ell}\to0$.
+\end{proof}
+
+For $\mu=d^{-1}\one_S$, the decomposition $\Omega_\ell=\Omega_\ell^-\sqcup\Omega_\ell^+$ gives
+\[
+ \mu^{*\ell}(x^{-1}y)=m_\ell^-(x,y)+m_\ell^+(x,y),\qquad
+ m_\ell^\pm(x,y)=\frac{|(\Omega_\ell^\pm)_x^o\cap(\Omega_\ell^\pm)_y^t|}{n_\ell}.
+\]
+Proposition~\ref{prop:walks} says precisely that
+\begin{equation}\label{eq:littlewood-flow}
+ \alpha(m_\ell^-)\le\beta^\ell,\qquad
+ \gamma(m_\ell^+)\le\beta^\ell,\qquad
+ \norm{\mu^{*\ell}}_{T^1}\le2\beta^\ell.
+\end{equation}
+
+\section{Positive coefficients from free products}
+We construct positive matrix coefficients whose small partial sums have uniformly bounded operator norm, while their total squared tracial $2$-norm can grow. The construction starts with averaging projections for the cyclic factors of a free product, passes to a finite quotient preserving short words, and compresses away a small spectral subspace. Fix the absolute constant $C_0=8\sqrt2$.
+
+\begin{lemma}[Positive coefficients with bounded small partial sums]\label{lem:matrices}
+Let $n\ge2$ and $r\ge1$ be integers. There are an integer $k\ge1$ and positive matrices $B_1,\ldots,B_n\in M_k(\C)$ such that
+\begin{equation}\label{eq:matrix-properties}
+ \norm{\sum_{i\in J}B_i}\le C_0\quad
+ \bigl(J\subseteq\{1,\ldots,n\},\ |J|\le2r\bigr),
+ \qquad \tau(B_i^2)\ge\frac1{2r}\quad(1\le i\le n).
+\end{equation}
+\end{lemma}
+
+We recall two standard facts about free products used in the proof. For $n,q\ge2$, let
+\begin{equation}\label{eq:free-product}
+ \Gamma=H_1*\cdots*H_n,\qquad H_i\cong C_q,
+ \qquad p_i=\frac1q\sum_{h\in H_i}\lambda_\Gamma(h)\in L\Gamma.
+\end{equation}
+Here $C_q$ is the cyclic group of order $q$, and $\tau_\Gamma$ is the canonical trace on $L\Gamma$. Each $p_i$ is the orthogonal projection onto the $H_i$-invariant vectors, and
+\begin{equation}\label{eq:projection-trace}
+ p_i^2=p_i=p_i^*,\qquad
+ \tau_\Gamma(p_i^2)=\tau_\Gamma(p_i)=\frac1q.
+\end{equation}
+A syllable is a nonidentity element of one factor; the syllable length of a reduced word is its number of syllables. The factor algebras are freely independent: a product of centered elements from consecutively different factors is supported on nonempty reduced words and has trace zero. The group $\Gamma$ is auxiliary and is independent of the group $G$.
+
+\begin{lemma}[Small sums of averaging projections]\label{lem:free-bound}
+For every nonempty $J\subseteq\{1,\ldots,n\}$ with $s=|J|\le q$,
+\begin{equation}\label{eq:free-bound}
+ \norm{\sum_{i\in J}p_i}
+ \le\frac{s}{q}+\frac{2\sqrt{s(q-1)}}q+\frac{q-1}{q}<4.
+\end{equation}
+\end{lemma}
+\begin{proof}
+Put $a_i=p_i-q^{-1}I$. The length-one free-product estimate of Ricard--Xu \cite[Lemmas 2.1--2.3 and Corollary 2.4]{rx} gives, since $a_i=a_i^*$ and $\tau_\Gamma(a_i)=0$,
+\[
+ \norm{\sum_{i\in J}a_i}
+ \le\max_{i\in J}\norm{a_i}
+     +2\left(\sum_{i\in J}\tau_\Gamma(a_i^2)\right)^{1/2}.
+\]
+Here $\norm{a_i}=(q-1)/q$ and $\tau_\Gamma(a_i^2)=(q-1)/q^2$. Adding the scalar term $s/q$ proves \eqref{eq:free-bound}.
+\end{proof}
+
+The next lemma is a standard consequence of residual finiteness of free products of finite groups; see Gruenberg \cite[Theorem 4.1, Corollary (ii)]{gruenberg}.
+
+\begin{lemma}[Finite quotients preserving short words]\label{lem:finite-quotient}
+For every integer $t\ge1$, there is a finite quotient $\varphi:\Gamma\to F$ whose kernel contains no nonidentity element of syllable length at most $t$.
+\end{lemma}
+
+\begin{proof}[Proof of Lemma~\ref{lem:matrices}]
+Set $q=2r$, $p=\min(q,n)$ and $M=\binom np$. Choose
+\begin{equation}\label{eq:moment-order}
+ t=\left\lceil\log_2(4qM)\right\rceil,
+ \qquad M2^{-t}\le\frac1{4q}.
+\end{equation}
+Apply Lemma~\ref{lem:finite-quotient} to $\Gamma=H_1*\cdots*H_n$, and put $N=|F|$. On $\ell^2(F)$ define
+\begin{equation}\label{eq:finite-projections}
+ P_i=\frac1q\sum_{h\in H_i}\lambda_F(\varphi(h)),
+ \qquad S_J=\sum_{i\in J}P_i\quad(|J|=p).
+\end{equation}
+The quotient is injective on each factor. Thus $P_i$ is a projection and $\tau_N(P_i)=1/q$, where $\tau_N=N^{-1}\Tr$ is the normalized trace in the regular representation of $F$.
+
+The expansion of $(\sum_{i\in J}p_i)^t$ is supported on elements of syllable length at most $t$. The quotient kills none of its nonidentity support elements. Since the normalized trace in the regular representation of a finite group is the coefficient of the identity, Lemma~\ref{lem:free-bound} gives
+\begin{equation}\label{eq:finite-moments}
+ \tau_N(S_J^t)
+ =\tau_\Gamma\left(\left(\sum_{i\in J}p_i\right)^t\right)
+ \le4^t.
+\end{equation}
+For each $p$-element set $J$, let $Q_J=\one_{(8,\infty)}(S_J)$ be the spectral projection for eigenvalues greater than 8. Positivity gives
+\begin{equation}\label{eq:spectral-tail}
+ \tau_N(Q_J)\le8^{-t}\tau_N(S_J^t)\le2^{-t}.
+\end{equation}
+Let $E=\bigvee_{|J|=p}Q_J$ be the orthogonal projection onto the sum of their ranges, and put $R=I-E$. Rank subadditivity yields
+\begin{equation}\label{eq:discarded-trace}
+ \delta:=\tau_N(E)\le M2^{-t}\le\frac1{4q}.
+\end{equation}
+The range of $R$ lies in the spectral subspace of every $S_J$ for eigenvalues at most 8. Hence
+\begin{equation}\label{eq:compressed-sums}
+ R S_JR\le8R\qquad(|J|=p).
+\end{equation}
+This is a quadratic-form inequality and requires no commutation between $R$ and $S_J$.
+
+Identify $R\ell^2(F)$ with $\C^k$, where $k=\rank R>0$, and define
+\begin{equation}\label{eq:compressed-coefficients}
+ B_i=\sqrt2\,(RP_iR)|_{R\ell^2(F)}.
+\end{equation}
+These matrices are positive, and \eqref{eq:compressed-sums} gives the partial-sum bound $8\sqrt2=C_0$ for $p$-element subsets. Positivity gives the same bound for smaller subsets.
+
+It remains to estimate the tracial mass after compression. For $P=P_i$, cyclicity of the trace gives
+\begin{align}
+ \tau_N((RPR)^2)
+ &=\tau_N(P)-2\tau_N(PE)+\tau_N(PEPE)\notag\\
+ &\ge\frac1q-2\delta.\label{eq:mass-after-compression}
+\end{align}
+Indeed $0\le\tau_N(PE)\le\tau_N(E)$ and
+$\tau_N(PEPE)=\tau_N((EPE)^2)\ge0$. The normalized trace on the compressed space is $\tau_k=\tau_N/\tau_N(R)$. Therefore
+\begin{equation}\label{eq:normalized-mass}
+ \tau_k(B_i^2)
+ =\frac{2\tau_N((RP_iR)^2)}{1-\delta}
+ \ge\frac{2(1/q-2\delta)}{1-\delta}
+ \ge\frac1q=\frac1{2r}.
+\end{equation}
+This proves \eqref{eq:matrix-properties}.
+\end{proof}
+
+\section{Decomposing the matrix-weighted Markov operator}
+Fix $\ell$ and write $n=n_\ell$, $r=r_\ell$. Apply Lemma~\ref{lem:matrices} with the words $w\in\cW_\ell$ as labels, obtaining $B_w\in M_k(\C)$. The unnormalized right Markov operator with matrix coefficients is
+\begin{equation}\label{eq:markov-operator}
+ \mathsf M_\ell=\sum_{w\in\cW_\ell}\rho(s_w)\otimes B_w
+ \in RG\,\overline\otimes\,M_k(\C).
+\end{equation}
+For $E\subseteq\Omega_\ell$, let
+\begin{equation}\label{eq:walk-restriction}
+ \mathsf M_\ell(E)=\sum_{\omega\in E}
+ (\delta_{o(\omega)}\delta_{t(\omega)}^*)\otimes B_{w(\omega)}.
+\end{equation}
+These sums converge strongly: each vertex is the initial or terminal vertex of $n$ walks, and all partial sums have norm at most $\sum_w\norm{B_w}$. In particular $\mathsf M_\ell(\Omega_\ell)=\mathsf M_\ell$. The decomposition into non-positive and positive walks gives
+\begin{equation}\label{eq:tensor-operators}
+ T_\ell=\mathsf M_\ell(\Omega_\ell^-),\qquad
+ Q_\ell=\mathsf M_\ell(\Omega_\ell^+),\qquad
+ \mathsf M_\ell=T_\ell+Q_\ell.
+\end{equation}
+The sums retain the individual walks, including distinct walks with the same endpoints.
+
+The next lemma converts sparsity at both endpoints into an operator norm bound. The factorization through the walk space applies \eqref{eq:matrix-properties} separately at initial and terminal vertices.
+
+\begin{lemma}[An operator estimate from endpoint bounds]\label{lem:walk-operator}
+Let $E\subseteq\Omega_\ell$ satisfy $|E_x^o|,|E_y^t|\le2r$ for all $x,y$. For any function $\varepsilon:E\to\C$ with $|\varepsilon|\le1$,
+\begin{equation}\label{eq:walk-operator-bound}
+ \left\Vert\sum_{\omega\in E}\varepsilon(\omega)
+ (\delta_{o(\omega)}\delta_{t(\omega)}^*)\otimes B_{w(\omega)}\right\Vert\le C_0.
+\end{equation}
+\end{lemma}
+\begin{proof}
+On the walk space $\ell^2(E)\otimes\C^k$, define
+\[
+ \begin{aligned}
+ (F\xi)(\omega)&=B_{w(\omega)}^{1/2}\xi(t(\omega)),\\
+ (D_\varepsilon\zeta)(\omega)&=\varepsilon(\omega)\zeta(\omega),\\
+ (S\zeta)(x)&=\sum_{\omega\in E_x^o}B_{w(\omega)}^{1/2}\zeta(\omega).
+ \end{aligned}
+\]
+At either endpoint, distinct walks have distinct words. Thus \eqref{eq:matrix-properties} gives
+\[
+ \norm{F\xi}^2
+ =\sum_y\left\langle\xi(y),
+ \left(\sum_{\omega\in E_y^t}B_{w(\omega)}\right)\xi(y)\right\rangle
+ \le C_0\norm{\xi}^2,
+ \qquad \norm{S}\le\sqrt{C_0}.
+\]
+The operator in \eqref{eq:walk-operator-bound} equals $SD_\varepsilon F$, so its norm is at most $C_0$.
+\end{proof}
+
+\begin{proposition}[Uniform local bounds and conjugation differences]\label{prop:uniform}
+With $U_k(g)=\lambda(g)\otimes I_k$, the operators \eqref{eq:tensor-operators} satisfy
+\begin{equation}\label{eq:uniform}
+ \sup_x\norm{\row_x(T_\ell)}\le C_0,\qquad
+ \sup_y\norm{\col_y(Q_\ell)}\le C_0,\qquad
+ \sup_g\norm{T_\ell-U_k(g)T_\ell U_k(g)^*}\le C_0.
+\end{equation}
+\end{proposition}
+\begin{proof}
+The operators
+$(\delta_x\delta_x^*\otimes I_k)T_\ell
+=\mathsf M_\ell((\Omega_\ell^-)_x^o)$ and
+$Q_\ell(\delta_y\delta_y^*\otimes I_k)
+=\mathsf M_\ell((\Omega_\ell^+)_y^t)$
+involve at most $r$ walks each. Lemma~\ref{lem:walk-operator} gives the first two bounds.
+
+Left translation acts on walks by $g\omega=(gx_0,\ldots,gx_\ell)$ and preserves their words. Hence
+\[
+ U_k(g)T_\ell U_k(g)^*=\mathsf M_\ell(g\Omega_\ell^-).
+\]
+The difference is supported on $E=\Omega_\ell^-\mathbin{\triangle}g\Omega_\ell^-$, with coefficients $\pm1$. At an initial vertex, $E$ is contained in $\Omega_\ell^-\cup g\Omega_\ell^-$; at a terminal vertex, use
+$E=\Omega_\ell^+\mathbin{\triangle}g\Omega_\ell^+\subseteq\Omega_\ell^+\cup g\Omega_\ell^+$.
+Proposition~\ref{prop:walks} therefore bounds both endpoint fibres by $2r$. Apply Lemma~\ref{lem:walk-operator}.
+\end{proof}
+
+\begin{proposition}[Growth of the tracial $2$-norm]\label{prop:growth}
+For the same operators,
+\begin{equation}\label{eq:growth}
+ \norm{\mathsf M_\ell}_2^2\ge\frac{n_\ell}{2r_\ell}\longrightarrow\infty.
+\end{equation}
+\end{proposition}
+\begin{proof}
+By the $L^2$ Fourier decomposition \eqref{eq:fourier},
+\begin{equation}\label{eq:energy}
+ \norm{\mathsf M_\ell}_2^2
+ =\sum_{s_w=s_u}\tau(B_wB_u)
+ \ge\sum_w\tau(B_w^2)\ge\frac{n_\ell}{2r_\ell}.
+\end{equation}
+The cross terms are nonnegative because
+$\tau(B_wB_u)=\tau(B_w^{1/2}B_uB_w^{1/2})\ge0$.
+Now apply Proposition~\ref{prop:walks}.
+\end{proof}
+
+\section{Tracial separation and the bounded cocycle}
+The trace converts the local row and column bounds into a distance estimate from the commutant.
+
+\begin{lemma}[Tracial distance estimate]\label{lem:distance}
+Suppose $A\in RG\,\overline\otimes\,M_k(\C)$ and $A=T+Q$, with $T,Q\in\cB(H_k)$. For every $C\in RG\,\overline\otimes\,M_k(\C)$,
+\begin{equation}\label{eq:distance-inequality}
+ \norm{A}_2\le\norm{\row_e(T)}+\norm{\col_e(Q)}+2\norm{T-C}.
+\end{equation}
+Consequently,
+\begin{equation}\label{eq:distance}
+ \dist(T,RG\,\overline\otimes\,M_k(\C))\ge\frac12\left(\norm{A}_2-\norm{\row_e(T)}-\norm{\col_e(Q)}\right).
+\end{equation}
+\end{lemma}
+\begin{proof}
+Set $B=T-C$. Both $C$ and $A-C$ lie in $RG\,\overline\otimes\,M_k(\C)$. Equation~\eqref{eq:trace-row-column} gives
+\[
+ \norm{C}_2\le\norm{\row_e(C)}\le\norm{\row_e(T)}+\norm{B},
+ \qquad
+ \norm{A-C}_2\le\norm{\col_e(A-C)}\le\norm{\col_e(Q)}+\norm{B}.
+\]
+Apply the triangle inequality to $A=C+(A-C)$ in $L^2(RG\,\overline\otimes\,M_k(\C),\tau)$, and take the infimum over $C$.
+\end{proof}
+
+For a unitary representation $U:G\to\mathcal U(H)$, an operator cocycle is a map $D:G\to\cB(H)$ satisfying
+$D(gh)=D(g)+U(g)D(h)U(g)^*$. It is bounded if $\sup_g\norm{D(g)}<\infty$, and inner if $D(g)=B-U(g)BU(g)^*$ for some $B\in\cB(H)$.
+
+\begin{theorem}[A bounded non-inner cocycle]\label{thm:cocycle}
+For each $\ell$, let $k_\ell$ and $T_\ell$ be obtained above, and put
+\begin{equation}\label{eq:direct-sum}
+ H=\bigoplus_{\ell\ge1}\bigl(\ell^2(G)\otimes\C^{k_\ell}\bigr),\qquad
+ U(g)=\bigoplus_{\ell\ge1}\bigl(\lambda(g)\otimes I_{k_\ell}\bigr).
+\end{equation}
+Then
+\begin{equation}\label{eq:cocycle}
+ D(g)=\bigoplus_{\ell\ge1}
+ \left(T_\ell-(\lambda(g)\otimes I_{k_\ell})T_\ell
+                   (\lambda(g)^*\otimes I_{k_\ell})\right)
+\end{equation}
+is a bounded non-inner operator cocycle for $U$, with $\sup_g\norm{D(g)}\le C_0$.
+\end{theorem}
+\begin{proof}
+Write $U_\ell(g)=\lambda(g)\otimes I_{k_\ell}$ and
+$D_\ell(g)=T_\ell-U_\ell(g)T_\ell U_\ell(g)^*$. Proposition~\ref{prop:uniform} gives a uniformly bounded direct sum in \eqref{eq:cocycle}. Direct expansion yields
+\[
+ D_\ell(gh)=D_\ell(g)+U_\ell(g)D_\ell(h)U_\ell(g)^*,
+\]
+and hence the cocycle identity for $D$.
+
+Suppose $D$ were implemented by $B\in\cB(H)$. Let $j_\ell:H_{k_\ell}\to H$ be the inclusion and set $B_\ell=j_\ell^*Bj_\ell$. Since the summand projections commute with $U(g)$, compression gives
+\[
+ D_\ell(g)=B_\ell-U_\ell(g)B_\ell U_\ell(g)^*,\qquad
+ \norm{B_\ell}\le\norm{B}.
+\]
+It follows that $C_\ell=T_\ell-B_\ell\in RG\,\overline\otimes\,M_{k_\ell}(\C)$. Applying Lemma~\ref{lem:distance} to $\mathsf M_\ell=T_\ell+Q_\ell$ gives
+\[
+ \norm{\mathsf M_\ell}_2\le2C_0+2\norm{B_\ell}\le2C_0+2\norm{B}
+ \qquad(\ell\ge1).
+\]
+This contradicts Proposition~\ref{prop:growth}. Thus $D$ is non-inner.
+\end{proof}
+
+\begin{proof}[Proof of the main theorem]
+Let $U$ and $D$ be supplied by Theorem~\ref{thm:cocycle}. Use the standard triangular construction; see \cite[\S\,2]{mo}:
+\begin{equation}\label{eq:triangular}
+ \pi(g)=
+ \begin{pmatrix}
+ U(g)&D(g)U(g)\\
+ 0&U(g)
+ \end{pmatrix}
+ \quad\text{on }H\oplus H.
+\end{equation}
+The cocycle identity gives $\pi(gh)=\pi(g)\pi(h)$, and
+$\sup_g\norm{\pi(g)}\le1+\sup_g\norm{D(g)}\le1+C_0<13$.
+If $\pi$ were unitarizable, the invariant subspace $H\oplus0$ would have an invariant complement, obtained by taking its orthogonal complement in an equivalent invariant Hilbert space inner product. The corresponding bounded projection would have the form
+\[
+ P=\begin{pmatrix}I&-B\\0&0\end{pmatrix}
+ \qquad(B\in\cB(H))
+\]
+and commute with every $\pi(g)$. Comparing the upper-right entries gives
+\[
+ D(g)U(g)-BU(g)=-U(g)B,
+ \qquad D(g)=B-U(g)BU(g)^*.
+\]
+This contradicts the non-innerness of $D$. Thus $\pi$ is a uniformly bounded nonunitarizable representation of $G$.
+\end{proof}
+
+\enlargethispage{2\baselineskip}
+\begin{thebibliography}{GGMT20}
+\bibitem[Alp23]{alpeev} A. Alpeev, \emph{Lamplighters over non-amenable groups are not strongly Ulam stable}, preprint, arXiv:2009.11738v3 (2023). \href{https://arxiv.org/abs/2009.11738v3}{arXiv:2009.11738v3}.
+\bibitem[BLPS99]{blps} I. Benjamini, R. Lyons, Y. Peres, and O. Schramm, \emph{Group-invariant percolation on graphs}, Geom. Funct. Anal. \textbf{9} (1999), 29--66. \href{https://rdlyons.pages.iu.edu/pdf/invar.pdf}{Author-hosted text}.
+\bibitem[BF91]{bf} M. Bo\.{z}ejko and G. Fendler, \emph{Herz-Schur multipliers and uniformly bounded representations of discrete groups}, Arch. Math. \textbf{57} (1991), 290--298.
+\bibitem[Day50]{day} M. M. Day, \emph{Means for the bounded functions and ergodicity of the bounded representations of semi-groups}, Trans. Amer. Math. Soc. \textbf{69} (1950), no. 2, 276--291. \href{https://doi.org/10.1090/S0002-9947-1950-0044031-5}{doi:10.1090/S0002-9947-1950-0044031-5}.
+\bibitem[Dix50]{dixmier} J. Dixmier, \emph{Les moyennes invariantes dans les semi-groupes et leurs applications}, Acta Sci. Math. (Szeged) \textbf{12} (1950), 213--227. \href{https://acta.bibl.u-szeged.hu/13605/}{Journal archive}.
+\bibitem[EM55]{ehrenpreis} L. Ehrenpreis and F. I. Mautner, \emph{Uniformly bounded representations of groups}, Proc. Nat. Acad. Sci. U.S.A. \textbf{41} (1955), no. 4, 231--233. \href{https://doi.org/10.1073/pnas.41.4.231}{doi:10.1073/pnas.41.4.231}.
+\bibitem[EM09]{em} I. Epstein and N. Monod, \emph{Nonunitarizable representations and random forests}, Int. Math. Res. Not. IMRN \textbf{2009} (2009), no. 22, 4336--4353. \href{https://arxiv.org/abs/0811.3422}{arXiv:0811.3422}; \href{https://doi.org/10.1093/imrn/rnp090}{doi:10.1093/imrn/rnp090}.
+\bibitem[GL09]{gl} D. Gaboriau and R. Lyons, \emph{A measurable-group-theoretic solution to von Neumann's problem}, Invent. Math. \textbf{177} (2009), no. 3, 533--540. \href{https://arxiv.org/abs/0711.1643}{arXiv:0711.1643}; \href{https://doi.org/10.1007/s00222-009-0187-5}{doi:10.1007/s00222-009-0187-5}.
+\bibitem[GGMT20]{ggmt} M. Gerasimova, D. Gruber, N. Monod, and A. Thom, \emph{Asymptotics of Cheeger constants and unitarisability of groups}, J. Funct. Anal. \textbf{278} (2020), no. 11, 108457. \href{https://arxiv.org/abs/1801.09600}{arXiv:1801.09600}; \href{https://doi.org/10.1016/j.jfa.2019.108457}{doi:10.1016/j.jfa.2019.108457}.
+\bibitem[GT21]{gt} M. Gerasimova and A. Thom, \emph{On the isometrisability of group representations on $p$-spaces}, J. Operator Theory \textbf{86} (2021), no. 1, 51--60. \href{https://arxiv.org/abs/1901.07496}{arXiv:1901.07496}; \href{https://doi.org/10.7900/jot.2020jan22.2275}{doi:10.7900/jot.2020jan22.2275}.
+\bibitem[Gru57]{gruenberg} K. W. Gruenberg, \emph{Residual properties of infinite soluble groups}, Proc. London Math. Soc. (3) \textbf{7} (1957), 29--62. \href{https://doi.org/10.1112/plms/s3-7.1.29}{doi:10.1112/plms/s3-7.1.29}.
+\bibitem[KS60]{ks} R. A. Kunze and E. M. Stein, \emph{Uniformly bounded representations and harmonic analysis of the $2\times2$ real unimodular group}, Amer. J. Math. \textbf{82} (1960), no. 1, 1--62. \href{https://doi.org/10.2307/2372876}{doi:10.2307/2372876}.
+\bibitem[Mon06]{monod} N. Monod, \emph{An invitation to bounded cohomology}, International Congress of Mathematicians, Vol. II, European Mathematical Society, Z\"urich, 2006, 1183--1211. \href{https://doi.org/10.4171/022-2/56}{doi:10.4171/022-2/56}.
+\bibitem[MO10]{mo} N. Monod and N. Ozawa, \emph{The Dixmier problem, lamplighters and Burnside groups}, J. Funct. Anal. \textbf{258} (2010), no. 1, 255--259. \href{https://arxiv.org/abs/0902.4585}{arXiv:0902.4585}; \href{https://doi.org/10.1016/j.jfa.2009.06.029}{doi:10.1016/j.jfa.2009.06.029}.
+\bibitem[NT51]{nt} M. Nakamura and Z. Takeda, \emph{Group representation and Banach limit}, Tohoku Math. J. (2) \textbf{3} (1951), no. 2, 132--135. \href{https://doi.org/10.2748/tmj/1178245513}{doi:10.2748/tmj/1178245513}.
+\bibitem[OAI26]{openai} OpenAI, \emph{Unitarizability implies amenability for discrete groups}, OpenAI Math, September 23, 2026. \href{https://github.com/openai/math/blob/main/preprints/Unitarizability-Implies-Amenability-for-Countable-Groups-September-23-2026/paper.pdf}{GitHub preprint}.
+\bibitem[Osi09]{osin} D. V. Osin, \emph{$L^2$-Betti numbers and non-unitarizable groups without free subgroups}, Int. Math. Res. Not. IMRN \textbf{2009} (2009), no. 22, 4220--4231. \href{https://arxiv.org/abs/0812.2093}{arXiv:0812.2093}; \href{https://doi.org/10.1093/imrn/rnp085}{doi:10.1093/imrn/rnp085}.
+\bibitem[Pis98]{pisier98} G. Pisier, \emph{The similarity degree of an operator algebra}, Algebra i Analiz \textbf{10} (1998), no. 1, 132--186; English translation, St. Petersburg Math. J. \textbf{10} (1999), no. 1, 103--146. \href{https://arxiv.org/abs/math/9706211}{arXiv:math/9706211}.
+\bibitem[Pis05]{pisier05} G. Pisier, \emph{Are unitarizable groups amenable?}, Infinite Groups: Geometric, Combinatorial and Dynamical Aspects, Progr. Math., vol. 248, Birkh\"auser, Basel, 2005, 323--362. \href{https://arxiv.org/abs/math/0405282}{arXiv:math/0405282}; \href{https://doi.org/10.1007/3-7643-7447-0_8}{doi:10.1007/3-7643-7447-0\_8}.
+\bibitem[PS86]{ps} T. Pytlik and R. Szwarc, \emph{An analytic family of uniformly bounded representations of free groups}, Acta Math. \textbf{157} (1986), no. 3--4, 287--309. \href{https://doi.org/10.1007/BF02392596}{doi:10.1007/BF02392596}.
+\bibitem[RX06]{rx} \'{E}. Ricard and Q. Xu, \emph{Khintchine type inequalities for reduced free products and applications}, J. Reine Angew. Math. \textbf{599} (2006), 27--59. \href{https://arxiv.org/abs/math/0505302}{arXiv:math/0505302}; \href{https://doi.org/10.1515/CRELLE.2006.077}{doi:10.1515/CRELLE.2006.077}.
+\bibitem[SzN47]{sznagy} B. Sz.-Nagy, \emph{On uniformly bounded linear transformations in Hilbert space}, Acta Sci. Math. (Szeged) \textbf{11} (1947), 152--157. \href{https://acta.bibl.u-szeged.hu/13563/}{Journal archive}.
+\bibitem[Tho15]{thom-radius} A. Thom, \emph{A remark about the spectral radius}, Int. Math. Res. IMRN \textbf{2015} (2015), no. 10, 2856--2864. \href{https://arxiv.org/abs/1306.1767}{arXiv:1306.1767}; \href{https://doi.org/10.1093/imrn/rnu018}{doi:10.1093/imrn/rnu018}.
+\bibitem[Tho16]{thom-forests} A. Thom, \emph{The expected degree of minimal spanning forests}, Combinatorica \textbf{36} (2016), no. 5, 591--600. \href{https://arxiv.org/abs/1306.0303}{arXiv:1306.0303}; \href{https://doi.org/10.1007/s00493-014-3160-x}{doi:10.1007/s00493-014-3160-x}.
+\bibitem[Ver23]{vergara} I. Vergara, \emph{The $M_d$-approximation property and unitarisability}, Proc. Amer. Math. Soc. \textbf{151} (2023), no. 3, 1209--1220. \href{https://arxiv.org/abs/2202.12198}{arXiv:2202.12198}; \href{https://doi.org/10.1090/proc/16204}{doi:10.1090/proc/16204}.
+\bibitem[Wys88]{wysoczanski} J. Wysocza\'nski, \emph{Characterization of amenable groups and the Littlewood functions on free groups}, Colloq. Math. \textbf{55} (1988), no. 2, 261--265. \href{https://doi.org/10.4064/cm-55-2-261-265}{doi:10.4064/cm-55-2-261-265}.
+\end{thebibliography}
+\end{document}
