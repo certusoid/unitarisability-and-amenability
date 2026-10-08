@@ -9,7 +9,7 @@
 \usetikzlibrary{arrows.meta,positioning,calc}
 \usepackage{hyperref}
 \usepackage{bookmark}
-\hypersetup{colorlinks=false,pdfborder={0 0 1},linkbordercolor={0.15 0.35 0.75},citebordercolor={0.1 0.55 0.35},urlbordercolor={0.15 0.35 0.75},pdftitle={A geometric account of the solution to the Dixmier unitarizability problem}}
+\hypersetup{colorlinks=false,pdfborder={0 0 1},linkbordercolor={0.15 0.35 0.75},citebordercolor={0.1 0.55 0.35},urlbordercolor={0.15 0.35 0.75},pdftitle={A geometric account of the solution to the Dixmier unitarisability problem}}
 \pagestyle{plain}
 \setlength{\emergencystretch}{2em}
 \numberwithin{equation}{section}
@@ -50,35 +50,35 @@
 }
 \makeatother
 
-\title{A geometric account of the solution to the Dixmier unitarizability problem}
+\title{A geometric account of the solution to the Dixmier unitarisability problem}
 \author{Vadim Alekseev}
 \date{October 8, 2026}%, last revised: \today}
 \begin{document}
 \begin{abstract}
-This note presents a more geometric account of OpenAI's solution to the Dixmier unitarizability problem. Some parts of the original proof are reinterpreted using the existence of a positive divergence flow on a non-amenable group, and the randomized construction for operator norm control of the Markov operator with matrix coefficients is replaced by one coming from free groups.
+This note presents a more geometric account of OpenAI's solution to the Dixmier unitarisability problem. Some parts of the original proof are reinterpreted using the existence of a positive divergence flow on a non-amenable group, and the randomized construction for operator norm control of the Markov operator with matrix coefficients is replaced by one coming from free groups.
 \end{abstract}
 \maketitle\thispagestyle{plain}
 
 \section*{Introduction}
-A representation $\pi:G\to\mathrm{GL}(H)$ on a complex Hilbert space is \emph{uniformly bounded} if $|\pi|:=\sup_{g\in G}\norm{\pi(g)}<\infty$, and \emph{unitarizable} if a bounded invertible operator $V$ makes $V\pi(g)V^{-1}$ unitary for every $g\in G$. A group is unitarizable if all its uniformly bounded Hilbert space representations are unitarizable. Sz.-Nagy's theorem on operators with uniformly bounded integer powers established the case $G=\mathbb Z$ \cite{sznagy}. Day and Dixmier extended the invariant-mean argument to amenable groups \cite{day,dixmier}; see also Nakamura--Takeda \cite{nt}. Dixmier immediately asked about the converse \cite[\S\,5]{dixmier}.
+A representation $\pi:G\to\mathrm{GL}(H)$ on a complex Hilbert space is \emph{uniformly bounded} if $|\pi|:=\sup_{g\in G}\norm{\pi(g)}<\infty$, and \emph{unitarisable} if a bounded invertible operator $V$ makes $V\pi(g)V^{-1}$ unitary for every $g\in G$. A group is unitarisable if all its uniformly bounded Hilbert space representations are unitarisable. Sz.-Nagy's theorem on operators with uniformly bounded integer powers established the case $G=\mathbb Z$ \cite{sznagy}. Day and Dixmier extended the invariant-mean argument to amenable groups \cite{day,dixmier}; see also Nakamura--Takeda \cite{nt}. Dixmier immediately asked about the converse \cite[\S\,5]{dixmier}.
 
 OpenAI's preprint \cite{openai} proves this converse for discrete groups. The purpose of this note is to give a geometric account of its operator obstruction and a construction of the required positive matrix coefficients using free products of finite groups. We work throughout with countable discrete groups (since the reduction to the general case is straightforward) and prove the following statement. Together with the Day--Dixmier theorem~\cite{day,dixmier}, this characterizes amenability among discrete groups.
 
 \begin{maintheorem}
-Every countable nonamenable discrete group is nonunitarizable.
+Every countable nonamenable discrete group is nonunitarisable.
 \end{maintheorem}
 
 
-The history of the problem involves several different ways of detecting nonunitarizability. Ehrenpreis and Mautner produced the first examples for $\mathrm{SL}_2(\R)$ in 1955 \cite{ehrenpreis}, with a detailed development by Kunze and Stein \cite{ks}. Explicit constructions for nonabelian free groups were obtained subsequently, including the analytic families of Pytlik and Szwarc \cite{ps}. Since unitarizability passes to subgroups, these results imply nonunitarizability for every group containing a nonabelian free subgroup. The remaining difficulty was to obtain an obstruction for general nonamenable groups, including those without such subgroups.
+The history of the problem involves several different ways of detecting nonunitarisability. Ehrenpreis and Mautner produced the first examples for $\mathrm{SL}_2(\R)$ in 1955 \cite{ehrenpreis}, with a detailed development by Kunze and Stein \cite{ks}. Explicit constructions for nonabelian free groups were obtained subsequently, including the analytic families of Pytlik and Szwarc \cite{ps}. Since unitarisability passes to subgroups, these results imply nonunitarisability for every group containing a nonabelian free subgroup. The remaining difficulty was to obtain an obstruction for general nonamenable groups, including those without such subgroups.
 
-Later work developed quantitative criteria for unitarizability \cite{pisier98,pisier05}. Random-forest methods and Osin's constructions produced nonunitarizable groups without free subgroups \cite{em,osin}, while measurable-group techniques yielded results for wreath products, later extended to finite lamp groups by Alpeev \cite{monod,gl,mo,alpeev}. Further work connected unitarizability with fixed price and approximation properties, including for groups acting on finite-dimensional CAT$(0)$ cube complexes \cite{thom-forests,vergara}.
+Later work developed quantitative criteria for unitarisability \cite{pisier98,pisier05}. Random-forest methods and Osin's constructions produced nonunitarisable groups without free subgroups \cite{em,osin}, while measurable-group techniques yielded results for wreath products, later extended to finite lamp groups by Alpeev \cite{monod,gl,mo,alpeev}. Further work connected unitarisability with fixed price and approximation properties, including for groups acting on finite-dimensional CAT$(0)$ cube complexes \cite{thom-forests,vergara}.
 
-The analytic approaches closest to the present proof are Littlewood-function methods for amenability and unitarizability \cite{wysoczanski,bf,em}, later related to asymptotic Cheeger constants by Gerasimova, Gruber, Monod, and Thom \cite{ggmt}.
+The analytic approaches closest to the present proof are Littlewood-function methods for amenability and unitarisability \cite{wysoczanski,bf,em}, later related to asymptotic Cheeger constants by Gerasimova, Gruber, Monod, and Thom \cite{ggmt}.
 
-The general idea of the proof given here can be explained as follows. Since the group is nonamenable, it has a flow of positive divergence which splits the random-walk operator on the Cayley graph into contributions from walks with positive and non-positive total flow. Thus we can decompose the Markov operators (acting from the right) on bigger and bigger powers of the generating set into the ``non-positive flow'' and ``positive flow'' parts, called $T$ resp. $Q$ (we omit the index counting the powers of the generating set here). Positive divergence makes the relevant non-positive part sparse, which allows to uniformly control the operator norm displacement of $T$ under the $G$-action. At the same time, the resulting tracial $2$-norms of the Markov operators, if one allows suitable matrix amplifications, tend to infinity, which together with sparsity control on $T$ shows via a tracial distance estimate that $T$ move further and further from the right group von Neumann algebra. Therefore the cocycle given at each stage by $T - U(g)TU(g)^{-1}$ remains bounded in the direct sum, but becomes non-inner there, which yields a nonunitarizable uniformly bounded representation.
+The general idea of the proof given here can be explained as follows. Since the group is nonamenable, it has a flow of positive divergence which splits the random-walk operator on the Cayley graph into contributions from walks with positive and non-positive total flow. Thus we can decompose the Markov operators (acting from the right) on bigger and bigger powers of the generating set into the ``non-positive flow'' and ``positive flow'' parts, called $T$ resp. $Q$ (we omit the index counting the powers of the generating set here). Positive divergence makes the relevant non-positive part sparse, which allows to uniformly control the operator norm displacement of $T$ under the $G$-action. At the same time, the resulting tracial $2$-norms of the Markov operators, if one allows suitable matrix amplifications, tend to infinity, which together with sparsity control on $T$ shows via a tracial distance estimate that $T$ move further and further from the right group von Neumann algebra. Therefore the cocycle given at each stage by $T - U(g)TU(g)^{-1}$ remains bounded in the direct sum, but becomes non-inner there, which yields a nonunitarisable uniformly bounded representation.
 
 \subsection*{AI assistance}
-AI tools contributed to several stages of the work leading to this paper, starting with OpenAI's solution to the Dixmier unitarizability problem.
+AI tools contributed to several stages of the work leading to this paper, starting with OpenAI's solution to the Dixmier unitarisability problem.
 
 The present exposition was developed through interaction of GPT-6 Astra with subsequent editing by the author. The author supplied ideas reinterpreting the original proof in a geometric way as well as placing the relevant quantities in the proper operator-algebraic context, which were then made precise by Astra; the usage of group-theoretic sources  instead of random matrix methods was suggested by the author and worked out by Astra in detail with subsequent manual editing by the author to improve presentation. The author had written the relevant explanations of the proof ideas and steps and takes responsibility for the mathematical claims, references, and final presentation.
 
@@ -133,7 +133,7 @@ For a finitely supported $f$ and a decomposition $\rho(f)=T+Q$ with kernels $u,v
 \end{equation}
 Indeed the difference has row bound $2\alpha(u)$ and, since it also equals $\lambda(g)Q\lambda(g)^*-Q$, column bound $2\gamma(v)$. Lemma~\ref{lem:walk-operator} gives the corresponding estimate for positive matrix coefficients.
 
-For unitarizable $G$, the standard Littlewood estimate is
+For unitarisable $G$, the standard Littlewood estimate is
 $\norm{f}_{\ell^2(G)}\le C_G\norm{f}_{T^1(G)}$; see Bo\.{z}ejko--Fendler \cite{bf} and Epstein--Monod \cite[Proposition 2.4]{em}. Here $\norm{f}_{\ell^2(G)}=\norm{\rho(f)}_2$. The construction below uses the same row--column estimates and tracial norm, with matrix coefficients.
 
 \section{Positive and non-positive walks}
@@ -510,7 +510,7 @@ Let $U$ and $D$ be supplied by Theorem~\ref{thm:cocycle}. Use the standard trian
 \end{equation}
 The cocycle identity gives $\pi(gh)=\pi(g)\pi(h)$, and
 $\sup_g\norm{\pi(g)}\le1+\sup_g\norm{D(g)}\le1+C_0<13$.
-If $\pi$ were unitarizable, the invariant subspace $H\oplus0$ would have an invariant complement, obtained by taking its orthogonal complement in an equivalent invariant Hilbert space inner product. The corresponding bounded projection would have the form
+If $\pi$ were unitarisable, the invariant subspace $H\oplus0$ would have an invariant complement, obtained by taking its orthogonal complement in an equivalent invariant Hilbert space inner product. The corresponding bounded projection would have the form
 \[
  P=\begin{pmatrix}I&-B\\0&0\end{pmatrix}
  \qquad(B\in\cB(H))
@@ -520,7 +520,7 @@ and commute with every $\pi(g)$. Comparing the upper-right entries gives
  D(g)U(g)-BU(g)=-U(g)B,
  \qquad D(g)=B-U(g)BU(g)^*.
 \]
-This contradicts the non-innerness of $D$. Thus $\pi$ is a uniformly bounded nonunitarizable representation of $G$.
+This contradicts the non-innerness of $D$. Thus $\pi$ is a uniformly bounded nonunitarisable representation of $G$.
 \end{proof}
 
 \enlargethispage{2\baselineskip}
@@ -531,7 +531,7 @@ This contradicts the non-innerness of $D$. Thus $\pi$ is a uniformly bounded non
 \bibitem[Day50]{day} M. M. Day, \emph{Means for the bounded functions and ergodicity of the bounded representations of semi-groups}, Trans. Amer. Math. Soc. \textbf{69} (1950), no. 2, 276--291. \href{https://doi.org/10.1090/S0002-9947-1950-0044031-5}{doi:10.1090/S0002-9947-1950-0044031-5}.
 \bibitem[Dix50]{dixmier} J. Dixmier, \emph{Les moyennes invariantes dans les semi-groupes et leurs applications}, Acta Sci. Math. (Szeged) \textbf{12} (1950), 213--227. \href{https://acta.bibl.u-szeged.hu/13605/}{Journal archive}.
 \bibitem[EM55]{ehrenpreis} L. Ehrenpreis and F. I. Mautner, \emph{Uniformly bounded representations of groups}, Proc. Nat. Acad. Sci. U.S.A. \textbf{41} (1955), no. 4, 231--233. \href{https://doi.org/10.1073/pnas.41.4.231}{doi:10.1073/pnas.41.4.231}.
-\bibitem[EM09]{em} I. Epstein and N. Monod, \emph{Nonunitarizable representations and random forests}, Int. Math. Res. Not. IMRN \textbf{2009} (2009), no. 22, 4336--4353. \href{https://arxiv.org/abs/0811.3422}{arXiv:0811.3422}; \href{https://doi.org/10.1093/imrn/rnp090}{doi:10.1093/imrn/rnp090}.
+\bibitem[EM09]{em} I. Epstein and N. Monod, \emph{Nonunitarisable representations and random forests}, Int. Math. Res. Not. IMRN \textbf{2009} (2009), no. 22, 4336--4353. \href{https://arxiv.org/abs/0811.3422}{arXiv:0811.3422}; \href{https://doi.org/10.1093/imrn/rnp090}{doi:10.1093/imrn/rnp090}.
 \bibitem[GL09]{gl} D. Gaboriau and R. Lyons, \emph{A measurable-group-theoretic solution to von Neumann's problem}, Invent. Math. \textbf{177} (2009), no. 3, 533--540. \href{https://arxiv.org/abs/0711.1643}{arXiv:0711.1643}; \href{https://doi.org/10.1007/s00222-009-0187-5}{doi:10.1007/s00222-009-0187-5}.
 \bibitem[GGMT20]{ggmt} M. Gerasimova, D. Gruber, N. Monod, and A. Thom, \emph{Asymptotics of Cheeger constants and unitarisability of groups}, J. Funct. Anal. \textbf{278} (2020), no. 11, 108457. \href{https://arxiv.org/abs/1801.09600}{arXiv:1801.09600}; \href{https://doi.org/10.1016/j.jfa.2019.108457}{doi:10.1016/j.jfa.2019.108457}.
 \bibitem[GT21]{gt} M. Gerasimova and A. Thom, \emph{On the isometrisability of group representations on $p$-spaces}, J. Operator Theory \textbf{86} (2021), no. 1, 51--60. \href{https://arxiv.org/abs/1901.07496}{arXiv:1901.07496}; \href{https://doi.org/10.7900/jot.2020jan22.2275}{doi:10.7900/jot.2020jan22.2275}.
@@ -540,10 +540,10 @@ This contradicts the non-innerness of $D$. Thus $\pi$ is a uniformly bounded non
 \bibitem[Mon06]{monod} N. Monod, \emph{An invitation to bounded cohomology}, International Congress of Mathematicians, Vol. II, European Mathematical Society, Z\"urich, 2006, 1183--1211. \href{https://doi.org/10.4171/022-2/56}{doi:10.4171/022-2/56}.
 \bibitem[MO10]{mo} N. Monod and N. Ozawa, \emph{The Dixmier problem, lamplighters and Burnside groups}, J. Funct. Anal. \textbf{258} (2010), no. 1, 255--259. \href{https://arxiv.org/abs/0902.4585}{arXiv:0902.4585}; \href{https://doi.org/10.1016/j.jfa.2009.06.029}{doi:10.1016/j.jfa.2009.06.029}.
 \bibitem[NT51]{nt} M. Nakamura and Z. Takeda, \emph{Group representation and Banach limit}, Tohoku Math. J. (2) \textbf{3} (1951), no. 2, 132--135. \href{https://doi.org/10.2748/tmj/1178245513}{doi:10.2748/tmj/1178245513}.
-\bibitem[OAI26]{openai} OpenAI, \emph{Unitarizability implies amenability for discrete groups}, OpenAI Math, September 23, 2026. \href{https://github.com/openai/math/blob/main/preprints/Unitarizability-Implies-Amenability-for-Countable-Groups-September-23-2026/paper.pdf}{GitHub preprint}.
-\bibitem[Osi09]{osin} D. V. Osin, \emph{$L^2$-Betti numbers and non-unitarizable groups without free subgroups}, Int. Math. Res. Not. IMRN \textbf{2009} (2009), no. 22, 4220--4231. \href{https://arxiv.org/abs/0812.2093}{arXiv:0812.2093}; \href{https://doi.org/10.1093/imrn/rnp085}{doi:10.1093/imrn/rnp085}.
+\bibitem[OAI26]{openai} OpenAI, \emph{unitarisability implies amenability for discrete groups}, OpenAI Math, September 23, 2026. \href{https://github.com/openai/math/blob/main/preprints/unitarisability-Implies-Amenability-for-Countable-Groups-September-23-2026/paper.pdf}{GitHub preprint}.
+\bibitem[Osi09]{osin} D. V. Osin, \emph{$L^2$-Betti numbers and non-unitarisable groups without free subgroups}, Int. Math. Res. Not. IMRN \textbf{2009} (2009), no. 22, 4220--4231. \href{https://arxiv.org/abs/0812.2093}{arXiv:0812.2093}; \href{https://doi.org/10.1093/imrn/rnp085}{doi:10.1093/imrn/rnp085}.
 \bibitem[Pis98]{pisier98} G. Pisier, \emph{The similarity degree of an operator algebra}, Algebra i Analiz \textbf{10} (1998), no. 1, 132--186; English translation, St. Petersburg Math. J. \textbf{10} (1999), no. 1, 103--146. \href{https://arxiv.org/abs/math/9706211}{arXiv:math/9706211}.
-\bibitem[Pis05]{pisier05} G. Pisier, \emph{Are unitarizable groups amenable?}, Infinite Groups: Geometric, Combinatorial and Dynamical Aspects, Progr. Math., vol. 248, Birkh\"auser, Basel, 2005, 323--362. \href{https://arxiv.org/abs/math/0405282}{arXiv:math/0405282}; \href{https://doi.org/10.1007/3-7643-7447-0_8}{doi:10.1007/3-7643-7447-0\_8}.
+\bibitem[Pis05]{pisier05} G. Pisier, \emph{Are unitarisable groups amenable?}, Infinite Groups: Geometric, Combinatorial and Dynamical Aspects, Progr. Math., vol. 248, Birkh\"auser, Basel, 2005, 323--362. \href{https://arxiv.org/abs/math/0405282}{arXiv:math/0405282}; \href{https://doi.org/10.1007/3-7643-7447-0_8}{doi:10.1007/3-7643-7447-0\_8}.
 \bibitem[PS86]{ps} T. Pytlik and R. Szwarc, \emph{An analytic family of uniformly bounded representations of free groups}, Acta Math. \textbf{157} (1986), no. 3--4, 287--309. \href{https://doi.org/10.1007/BF02392596}{doi:10.1007/BF02392596}.
 \bibitem[RX06]{rx} \'{E}. Ricard and Q. Xu, \emph{Khintchine type inequalities for reduced free products and applications}, J. Reine Angew. Math. \textbf{599} (2006), 27--59. \href{https://arxiv.org/abs/math/0505302}{arXiv:math/0505302}; \href{https://doi.org/10.1515/CRELLE.2006.077}{doi:10.1515/CRELLE.2006.077}.
 \bibitem[SzN47]{sznagy} B. Sz.-Nagy, \emph{On uniformly bounded linear transformations in Hilbert space}, Acta Sci. Math. (Szeged) \textbf{11} (1947), 152--157. \href{https://acta.bibl.u-szeged.hu/13563/}{Journal archive}.
