@@ -62,7 +62,7 @@ Later work developed quantitative criteria for unitarizability \cite{pisier98,pi
 
 The analytic approaches closest to the present proof are Littlewood-function methods for amenability and unitarizability \cite{wysoczanski,bf,em}, later related to asymptotic Cheeger constants by Gerasimova, Gruber, Monod, and Thom \cite{ggmt}.
 
-The general idea of the proof given here can be explained as follows. Since the group is nonamenable, it has a flow of positive divergence which splits the random-walk operator on the Cayley graph into contributions from walks with positive and non-positive total flow. Positive drift makes the relevant non-positive part sparse. Thus decomposing the Markov operators on bigger and bigger powers of generatings set into the ``non-positive flow'' $T$ and ``positive flow'' $Q$ parts allows to uniformly control the operator norm displacement of $T$ under the $G$-action. At the same time, the resulting tracial $2$-norms of $T$, if one allows suitable matrix amplifications, tend to infinity, so that a tracial distance estimate shows that the non-positive flow parts move arbitrarily far from the right group von Neumann algebra. They therefore give rise to a bounded non-inner operator cocycle, which yields a nonunitarizable uniformly bounded representation.
+The general idea of the proof given here can be explained as follows. Since the group is nonamenable, it has a flow of positive divergence which splits the random-walk operator on the Cayley graph into contributions from walks with positive and non-positive total flow. Thus we can decompose the Markov operators (acting from the right) on bigger and bigger powers of generatings set into the ``non-positive flow'' and ``positive flow'' parts, called $T$ resp. $Q$ (we omit the index counting the powers of the generating set here). Positive divergence makes the relevant non-positive part sparse, which allows to uniformly control the operator norm displacement of $T$ under the $G$-action. At the same time, the resulting tracial $2$-norms of $T$, if one allows suitable matrix amplifications, tend to infinity, so that a tracial distance estimate shows that $T$ move further and further from the right group von Neumann algebra. Therefore the cocycle given at each stage by $T - U(g)TU(g)^{-1}$ remains bounded in the direct sum, but becomes non-inner there, which yields a nonunitarizable uniformly bounded representation.
 
 \subsection*{AI assistance}
 AI tools contributed to several stages of the work leading to this paper, starting with OpenAI's solution to the Dixmier unitarizability problem.
@@ -135,7 +135,7 @@ Fix $0<\eta<\min(h,1)$ and set $\beta=\sqrt{1-\eta^2}$.
 
 On the right Cayley graph, an antisymmetric flow gives a signed value to each oriented edge. Its integral along a walk changes sign under reversal. Positive divergence means that a random walk has positive expected flow at every step. Consequently, non-positive walks starting at a fixed vertex are rare; by reversal, positive walks ending at a fixed vertex are also rare. These are the two estimates that will control the two parts of the Markov operator.
 
-\begin{lemma}[A flow of constant positive divergence]\label{lem:flow}
+\begin{lemma}[see {\cite[Proposition 2.1]{blps}}]\label{lem:flow}
 There is a real function $b$ on oriented Cayley edges satisfying
 \begin{equation}\label{eq:flow}
  b(x,y)=-b(y,x),\qquad |b(x,y)|\le1,\qquad
@@ -149,7 +149,7 @@ For a finite set $K\subset G$, form a network with a source, the vertices of $K$
 \]
 The max-flow/min-cut theorem gives a flow saturating all source edges. Subtract opposite internal flows, extend antisymmetrically across the boundary, and set the remaining values to zero. The resulting function has modulus at most one and divergence $d\eta$ on $K$. A diagonal limit along a finite exhaustion of $G$ proves the assertion.
 \end{proof}
-This is the flow characterization of the edge-isoperimetric constant; see \cite[Proposition 2.1]{blps}.
+
 
 Let $\cW_\ell=S^{\times\ell}$, $n_\ell=d^\ell$, and $s_w=s_1\cdots s_\ell$ for $w=(s_1,\ldots,s_\ell)$. Write $\Omega_\ell$ for the set of length-$\ell$ walks. A walk $\omega=(x_0,\ldots,x_\ell)$ has initial vertex $o(\omega)=x_0$, terminal vertex $t(\omega)=x_\ell$, and word $w(\omega)\in\cW_\ell$, with $x_j=x_0s_1\cdots s_j$. Define
 \begin{equation}\label{eq:walk-signs}
@@ -211,7 +211,9 @@ Thus $\Omega_\ell=\Omega_\ell^-\sqcup\Omega_\ell^+$. Figure~\ref{fig:walks} show
 \label{fig:walks}
 \end{figure}
 
-\begin{proposition}[Endpoint estimates]\label{prop:walks}
+We now show that the proportion of walks with negative total flow is negligible.
+
+\begin{proposition}\label{prop:walks}
 For every $\ell\ge1$ and $x,y\in G$,
 \begin{equation}\label{eq:loads}
  |(\Omega_\ell^-)_x^o|\le n_\ell\beta^\ell,\qquad
@@ -248,7 +250,7 @@ Proposition~\ref{prop:walks} says precisely that
 \section{Positive coefficients from free products}
 We construct positive matrix coefficients whose small partial sums have uniformly bounded operator norm, while their total squared tracial $2$-norm can grow. The construction starts with averaging projections for the cyclic factors of a free product, passes to a finite quotient preserving short words, and compresses away a small spectral subspace. Fix the absolute constant $C_0=8\sqrt2$.
 
-\begin{lemma}[Positive coefficients with bounded small partial sums]\label{lem:matrices}
+\begin{lemma}\label{lem:matrices}
 Let $n\ge2$ and $r\ge1$ be integers. There are an integer $k\ge1$ and positive matrices $B_1,\ldots,B_n\in M_k(\C)$ such that
 \begin{equation}\label{eq:matrix-properties}
  \norm{\sum_{i\in J}B_i}\le C_0\quad
@@ -267,9 +269,9 @@ Here $C_q$ is the cyclic group of order $q$, and $\tau_\Gamma$ is the canonical 
  p_i^2=p_i=p_i^*,\qquad
  \tau_\Gamma(p_i^2)=\tau_\Gamma(p_i)=\frac1q.
 \end{equation}
-A syllable is a nonidentity element of one factor; the syllable length of a reduced word is its number of syllables. The factor algebras are freely independent: a product of centered elements from consecutively different factors is supported on nonempty reduced words and has trace zero. The group $\Gamma$ is auxiliary and is independent of the group $G$.
+% A syllable is a nonidentity element of one factor; the syllable length of a reduced word is its number of syllables. The factor algebras are freely independent: a product of centered elements from consecutively different factors is supported on nonempty reduced words and has trace zero. The group $\Gamma$ is auxiliary and is independent of the group $G$.
 
-\begin{lemma}[Small sums of averaging projections]\label{lem:free-bound}
+\begin{lemma}\label{lem:free-bound}
 For every nonempty $J\subseteq\{1,\ldots,n\}$ with $s=|J|\le q$,
 \begin{equation}\label{eq:free-bound}
  \norm{\sum_{i\in J}p_i}
@@ -286,11 +288,8 @@ Put $a_i=p_i-q^{-1}I$. The length-one free-product estimate of Ricard--Xu \cite[
 Here $\norm{a_i}=(q-1)/q$ and $\tau_\Gamma(a_i^2)=(q-1)/q^2$. Adding the scalar term $s/q$ proves \eqref{eq:free-bound}.
 \end{proof}
 
-The next lemma is a standard consequence of residual finiteness of free products of finite groups; see Gruenberg \cite[Theorem 4.1, Corollary (ii)]{gruenberg}.
 
-\begin{lemma}[Finite quotients preserving short words]\label{lem:finite-quotient}
-For every integer $t\ge1$, there is a finite quotient $\varphi:\Gamma\to F$ whose kernel contains no nonidentity element of syllable length at most $t$.
-\end{lemma}
+
 
 \begin{proof}[Proof of Lemma~\ref{lem:matrices}]
 Set $q=2r$, $p=\min(q,n)$ and $M=\binom np$. Choose
@@ -298,44 +297,27 @@ Set $q=2r$, $p=\min(q,n)$ and $M=\binom np$. Choose
  t=\left\lceil\log_2(4qM)\right\rceil,
  \qquad M2^{-t}\le\frac1{4q}.
 \end{equation}
-Apply Lemma~\ref{lem:finite-quotient} to $\Gamma=H_1*\cdots*H_n$, and put $N=|F|$. On $\ell^2(F)$ define
+The group $\Gamma=H_1*\cdots*H_n$ is residually finite \cite[Theorem 4.1, Corollary (ii)]{gruenberg}, so there is a finite quotient $F$ such that the quotient map is injective on every factor. On $\ell^2(F)$ define
 \begin{equation}\label{eq:finite-projections}
  P_i=\frac1q\sum_{h\in H_i}\lambda_F(\varphi(h)),
  \qquad S_J=\sum_{i\in J}P_i\quad(|J|=p).
 \end{equation}
-The quotient is injective on each factor. Thus $P_i$ is a projection and $\tau_N(P_i)=1/q$, where $\tau_N=N^{-1}\Tr$ is the normalized trace in the regular representation of $F$.
+Thus $P_i$ is a projection and $\tau(P_i)=1/q$, where $\tau$ is the normalized trace in the regular representation of $F$.
 
-The expansion of $(\sum_{i\in J}p_i)^t$ is supported on elements of syllable length at most $t$. The quotient kills none of its nonidentity support elements. Since the normalized trace in the regular representation of a finite group is the coefficient of the identity, Lemma~\ref{lem:free-bound} gives
+All summands of $(\sum_{i\in J}p_i)^t$ map injectively to the quotient. Since the normalized trace in the regular representation of a finite group is the coefficient of the identity, Lemma~\ref{lem:free-bound} gives
 \begin{equation}\label{eq:finite-moments}
- \tau_N(S_J^t)
+ \tau(S_J^t)
  =\tau_\Gamma\left(\left(\sum_{i\in J}p_i\right)^t\right)
  \le4^t.
 \end{equation}
 For each $p$-element set $J$, let $Q_J=\one_{(8,\infty)}(S_J)$ be the spectral projection for eigenvalues greater than 8. Positivity gives
-\begin{equation}\label{eq:spectral-tail}
- \tau_N(Q_J)\le8^{-t}\tau_N(S_J^t)\le2^{-t}.
-\end{equation}
-Let $E=\bigvee_{|J|=p}Q_J$ be the orthogonal projection onto the sum of their ranges, and put $R=I-E$. Rank subadditivity yields
-\begin{equation}\label{eq:discarded-trace}
- \delta:=\tau_N(E)\le M2^{-t}\le\frac1{4q}.
-\end{equation}
-The range of $R$ lies in the spectral subspace of every $S_J$ for eigenvalues at most 8. Hence
-\begin{equation}\label{eq:compressed-sums}
- R S_JR\le8R\qquad(|J|=p).
-\end{equation}
-This is a quadratic-form inequality and requires no commutation between $R$ and $S_J$.
+\( \tau(Q_J)\le8^{-t}\tau(S_J^t)\le2^{-t}\). Letting $E=\bigvee_{|J|=p}Q_J$ be the orthogonal projection onto the sum of their ranges, and putting $R=1-E$, we get \(\delta:=\tau(E)\le M2^{-t}\le\frac1{4q}\). The range of $R$ lies in the spectral subspace of every $S_J$ for eigenvalues at most 8. Hence for $|J|\le p$ we get \(R S_JR\le8R\). Define \(B_i=\sqrt2\,(RP_iR)|_{R\ell^2(F)}\); the estimate on the norm follows.
 
-Identify $R\ell^2(F)$ with $\C^k$, where $k=\rank R>0$, and define
-\begin{equation}\label{eq:compressed-coefficients}
- B_i=\sqrt2\,(RP_iR)|_{R\ell^2(F)}.
-\end{equation}
-These matrices are positive, and \eqref{eq:compressed-sums} gives the partial-sum bound $8\sqrt2=C_0$ for $p$-element subsets. Positivity gives the same bound for smaller subsets.
-
-It remains to estimate the tracial mass after compression. For $P=P_i$, cyclicity of the trace gives
+It remains to estimate the tracial mass after compression. For $P=P_i$, we have
 \begin{align}
- \tau_N((RPR)^2)
- &=\tau_N(P)-2\tau_N(PE)+\tau_N(PEPE)\notag\\
- &\ge\frac1q-2\delta.\label{eq:mass-after-compression}
+ \tau((RPR)^2)
+ =\tau(P)-2\tau(PE)+\tau(PEPE)
+ \ge\frac1q-2\delta.\label{eq:mass-after-compression}
 \end{align}
 Indeed $0\le\tau_N(PE)\le\tau_N(E)$ and
 $\tau_N(PEPE)=\tau_N((EPE)^2)\ge0$. The normalized trace on the compressed space is $\tau_k=\tau_N/\tau_N(R)$. Therefore
@@ -345,11 +327,10 @@ $\tau_N(PEPE)=\tau_N((EPE)^2)\ge0$. The normalized trace on the compressed space
  \ge\frac{2(1/q-2\delta)}{1-\delta}
  \ge\frac1q=\frac1{2r}.
 \end{equation}
-This proves \eqref{eq:matrix-properties}.
 \end{proof}
 
 \section{Decomposing the matrix-weighted Markov operator}
-Fix $\ell$ and write $n=n_\ell$, $r=r_\ell$. Apply Lemma~\ref{lem:matrices} with the words $w\in\cW_\ell$ as labels, obtaining $B_w\in M_k(\C)$. The unnormalized right Markov operator with matrix coefficients is
+Fix $\ell$ and write $n=n_\ell$, $r=r_\ell$. Apply Lemma~\ref{lem:matrices} with the words $w\in\cW_\ell$ as labels, obtaining $B_w\in M_k(\C)$. The unnormalized right Markov operator with coefficients $(B_w)$ is defined as
 \begin{equation}\label{eq:markov-operator}
  \mathsf M_\ell=\sum_{w\in\cW_\ell}\rho(s_w)\otimes B_w
  \in RG\,\overline\otimes\,M_k(\C).
@@ -367,9 +348,9 @@ These sums converge strongly: each vertex is the initial or terminal vertex of $
 \end{equation}
 The sums retain the individual walks, including distinct walks with the same endpoints.
 
-The next lemma converts sparsity at both endpoints into an operator norm bound. The factorization through the walk space applies \eqref{eq:matrix-properties} separately at initial and terminal vertices.
+The next lemma converts sparsity at both endpoints into an operator norm bound. The factorization through the walk space applies Lemma \ref{lem:matrices} separately at initial and terminal vertices.
 
-\begin{lemma}[An operator estimate from endpoint bounds]\label{lem:walk-operator}
+\begin{lemma}\label{lem:walk-operator}
 Let $E\subseteq\Omega_\ell$ satisfy $|E_x^o|,|E_y^t|\le2r$ for all $x,y$. For any function $\varepsilon:E\to\C$ with $|\varepsilon|\le1$,
 \begin{equation}\label{eq:walk-operator-bound}
  \left\Vert\sum_{\omega\in E}\varepsilon(\omega)
@@ -385,7 +366,7 @@ On the walk space $\ell^2(E)\otimes\C^k$, define
  (S\zeta)(x)&=\sum_{\omega\in E_x^o}B_{w(\omega)}^{1/2}\zeta(\omega).
  \end{aligned}
 \]
-At either endpoint, distinct walks have distinct words. Thus \eqref{eq:matrix-properties} gives
+At either endpoint, distinct walks have distinct words. Thus Lemma \ref{lem:matrices}  gives
 \[
  \norm{F\xi}^2
  =\sum_y\left\langle\xi(y),
@@ -396,7 +377,9 @@ At either endpoint, distinct walks have distinct words. Thus \eqref{eq:matrix-pr
 The operator in \eqref{eq:walk-operator-bound} equals $SD_\varepsilon F$, so its norm is at most $C_0$.
 \end{proof}
 
-\begin{proposition}[Uniform local bounds and conjugation differences]\label{prop:uniform}
+We can now use sparsity to control the norms of rows and columns of $T_\ell$ as well as the its displacement under the conjugation action.
+
+\begin{proposition}\label{prop:uniform}
 With $U_k(g)=\lambda(g)\otimes I_k$, the operators \eqref{eq:tensor-operators} satisfy
 \begin{equation}\label{eq:uniform}
  \sup_x\norm{\row_x(T_\ell)}\le C_0,\qquad
@@ -421,7 +404,9 @@ $E=\Omega_\ell^+\mathbin{\triangle}g\Omega_\ell^+\subseteq\Omega_\ell^+\cup g\Om
 Proposition~\ref{prop:walks} therefore bounds both endpoint fibres by $2r$. Apply Lemma~\ref{lem:walk-operator}.
 \end{proof}
 
-\begin{proposition}[Growth of the tracial $2$-norm]\label{prop:growth}
+We now record the growing 2-norm estimate on our Markov operators.
+
+\begin{proposition}\label{prop:growth}
 For the same operators,
 \begin{equation}\label{eq:growth}
  \norm{\mathsf M_\ell}_2^2\ge\frac{n_\ell}{2r_\ell}\longrightarrow\infty.
@@ -439,10 +424,10 @@ $\tau(B_wB_u)=\tau(B_w^{1/2}B_uB_w^{1/2})\ge0$.
 Now apply Proposition~\ref{prop:walks}.
 \end{proof}
 
-\section{Tracial separation and the bounded cocycle}
+\section{Separation from the commutant and the bounded cocycle}
 The trace converts the local row and column bounds into a distance estimate from the commutant.
 
-\begin{lemma}[Tracial distance estimate]\label{lem:distance}
+\begin{lemma}\label{lem:distance}
 Suppose $A\in RG\,\overline\otimes\,M_k(\C)$ and $A=T+Q$, with $T,Q\in\cB(H_k)$. For every $C\in RG\,\overline\otimes\,M_k(\C)$,
 \begin{equation}\label{eq:distance-inequality}
  \norm{A}_2\le\norm{\row_e(T)}+\norm{\col_e(Q)}+2\norm{T-C}.
@@ -463,9 +448,9 @@ Apply the triangle inequality to $A=C+(A-C)$ in $L^2(RG\,\overline\otimes\,M_k(\
 \end{proof}
 
 For a unitary representation $U:G\to\mathcal U(H)$, an operator cocycle is a map $D:G\to\cB(H)$ satisfying
-$D(gh)=D(g)+U(g)D(h)U(g)^*$. It is bounded if $\sup_g\norm{D(g)}<\infty$, and inner if $D(g)=B-U(g)BU(g)^*$ for some $B\in\cB(H)$.
+$D(gh)=D(g)+U(g)D(h)U(g)^*$. It is bounded if $\sup_g\norm{D(g)}<\infty$, and inner if $D(g)=B-U(g)BU(g)^*$ for some $B\in\cB(H)$. We now show that $T_\ell$ give rise to a non-inner bounded cocycle.
 
-\begin{theorem}[A bounded non-inner cocycle]\label{thm:cocycle}
+\begin{theorem}\label{thm:cocycle}
 For each $\ell$, let $k_\ell$ and $T_\ell$ be obtained above, and put
 \begin{equation}\label{eq:direct-sum}
  H=\bigoplus_{\ell\ge1}\bigl(\ell^2(G)\otimes\C^{k_\ell}\bigr),\qquad
