@@ -37,6 +37,19 @@
 \DeclareMathOperator{\col}{col}
 \DeclareMathOperator{\Ad}{Ad}
 \DeclareMathOperator{\rank}{rank}
+
+\makeatletter
+\def\@adminfootnotes{%
+  \let\@makefnmark\relax  \let\@thefnmark\relax
+  \ifx\@empty\@date\else \@footnotetext{\@setdate}\fi%%   <------ added
+  \ifx\@empty\@subjclass\else \@footnotetext{\@setsubjclass}\fi
+  \ifx\@empty\@keywords\else \@footnotetext{\@setkeywords}\fi
+  \ifx\@empty\thankses\else \@footnotetext{%
+    \def\par{\let\par\@par}\@setthanks}%
+  \fi
+}
+\makeatother
+
 \title{A geometric account of the solution to the Dixmier unitarizability problem}
 \author{Vadim Alekseev}
 \date{October 8, 2026}
