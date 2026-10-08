@@ -47,7 +47,7 @@ This note presents a more geometric account of OpenAI's solution to the Dixmier 
 \maketitle\thispagestyle{plain}
 
 \section*{Introduction}
-A representation $\pi:G\to\mathrm{GL}(H)$ on a complex Hilbert space is \emph{uniformly bounded} if $|\pi|:=\sup_{g\in G}\norm{\pi(g)}<\infty$, and \emph{unitarizable} if a bounded invertible operator $V$ makes $V\pi(g)V^{-1}$ unitary for every $g\in G$. A group is unitarizable if all its uniformly bounded Hilbert space representations are unitarizable. Sz.-Nagy's theorem on operators with uniformly bounded integer powers established the casegroups $G=\mathbb Z$ \cite{sznagy}. Day and Dixmier extended the invariant-mean argument to amenable groups \cite{day,dixmier}; see also Nakamura--Takeda \cite{nt}. Dixmier immediately asked about the converse \cite[\S\,5]{dixmier}.
+A representation $\pi:G\to\mathrm{GL}(H)$ on a complex Hilbert space is \emph{uniformly bounded} if $|\pi|:=\sup_{g\in G}\norm{\pi(g)}<\infty$, and \emph{unitarizable} if a bounded invertible operator $V$ makes $V\pi(g)V^{-1}$ unitary for every $g\in G$. A group is unitarizable if all its uniformly bounded Hilbert space representations are unitarizable. Sz.-Nagy's theorem on operators with uniformly bounded integer powers established the case $G=\mathbb Z$ \cite{sznagy}. Day and Dixmier extended the invariant-mean argument to amenable groups \cite{day,dixmier}; see also Nakamura--Takeda \cite{nt}. Dixmier immediately asked about the converse \cite[\S\,5]{dixmier}.
 
 OpenAI's preprint \cite{openai} proves this converse for discrete groups. The purpose of this note is to give a geometric account of its operator obstruction and a construction of the required positive matrix coefficients using free products of finite groups. We work throughout with countable discrete groups (since the reduction to the general case is straightforward) and prove the following statement. Together with the Day--Dixmier theorem~\cite{day,dixmier}, this characterizes amenability among discrete groups.
 
@@ -62,7 +62,7 @@ Later work developed quantitative criteria for unitarizability \cite{pisier98,pi
 
 The analytic approaches closest to the present proof are Littlewood-function methods for amenability and unitarizability \cite{wysoczanski,bf,em}, later related to asymptotic Cheeger constants by Gerasimova, Gruber, Monod, and Thom \cite{ggmt}.
 
-The general idea of the proof given here can be explained as follows. Since the group is nonamenable, it has a flow of positive divergence which splits the random-walk operator on the Cayley graph into contributions from walks with positive and non-positive total flow. Thus we can decompose the Markov operators (acting from the right) on bigger and bigger powers of generatings set into the ``non-positive flow'' and ``positive flow'' parts, called $T$ resp. $Q$ (we omit the index counting the powers of the generating set here). Positive divergence makes the relevant non-positive part sparse, which allows to uniformly control the operator norm displacement of $T$ under the $G$-action. At the same time, the resulting tracial $2$-norms of $T$, if one allows suitable matrix amplifications, tend to infinity, so that a tracial distance estimate shows that $T$ move further and further from the right group von Neumann algebra. Therefore the cocycle given at each stage by $T - U(g)TU(g)^{-1}$ remains bounded in the direct sum, but becomes non-inner there, which yields a nonunitarizable uniformly bounded representation.
+The general idea of the proof given here can be explained as follows. Since the group is nonamenable, it has a flow of positive divergence which splits the random-walk operator on the Cayley graph into contributions from walks with positive and non-positive total flow. Thus we can decompose the Markov operators (acting from the right) on bigger and bigger powers of the generating set into the ``non-positive flow'' and ``positive flow'' parts, called $T$ resp. $Q$ (we omit the index counting the powers of the generating set here). Positive divergence makes the relevant non-positive part sparse, which allows to uniformly control the operator norm displacement of $T$ under the $G$-action. At the same time, the resulting tracial $2$-norms of the Markov operators, if one allows suitable matrix amplifications, tend to infinity, which together with sparsity control on $T$ shows via a tracial distance estimate that $T$ move further and further from the right group von Neumann algebra. Therefore the cocycle given at each stage by $T - U(g)TU(g)^{-1}$ remains bounded in the direct sum, but becomes non-inner there, which yields a nonunitarizable uniformly bounded representation.
 
 \subsection*{AI assistance}
 AI tools contributed to several stages of the work leading to this paper, starting with OpenAI's solution to the Dixmier unitarizability problem.
@@ -211,7 +211,7 @@ Thus $\Omega_\ell=\Omega_\ell^-\sqcup\Omega_\ell^+$. Figure~\ref{fig:walks} show
 \label{fig:walks}
 \end{figure}
 
-We now show that the proportion of walks with negative total flow is negligible.
+We now show that the proportion of walks with non-positive total flow is negligible.
 
 \begin{proposition}\label{prop:walks}
 For every $\ell\ge1$ and $x,y\in G$,
